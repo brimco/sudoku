@@ -17,6 +17,7 @@ function getBoardElement(row, col) {
 function setVal(row, col, val) {
     getBoardElement(row, col).innerHTML = val
     currentValues[row - 1][col - 1] = val
+    markNotMistake(row, col)
 }
 
 function getVal(row, col) {
@@ -72,23 +73,43 @@ function markNotPermanent(row, col) {
     getBoardElement(row, col).classList.remove('permanent')
 }
 
+function markMistake(row, col) {
+    getBoardElement(row, col).classList.add('mistake')
+}
+
+function markNotMistake(row, col) {
+    getBoardElement(row, col).classList.remove('mistake')
+}
+
 function checkForMistakes() {
     const right_answers = sudoku.board_string_to_grid(sudoku.solve(currentGame))
     
-    let correct = true
-    outer_loop:
-    for (let row = 0; row < 9; row++) {
-        for (let col = 0; col < 9; col++) {
+    let count_mistakes = 0;
+    let count_blanks = 0;
+    let row;
+    let col;
+
+    for (row = 0; row < 9; row++) {
+        for (col = 0; col < 9; col++) {
+            console.log(`r${row + 1} c${col + 1}. ${right_answers[row][col]} ?= ${currentValues[row][col]}`);
             if (right_answers[row][col] != currentValues[row][col]) {
-                correct = false
-                break outer_loop;
-            }
+                if (currentValues[row][col] == '') {
+                    count_blanks++
+                    console.log('   blank');
+                } else {
+                    count_mistakes++
+                    markMistake(row + 1, col + 1)
+                    console.log('   mistake');
+                }
+            } else {console.log('   equal');
+        }
         }
     }
-    if (correct) {
-        console.log('Finished');
+    const message_div = document.querySelector('#mistakesMessages')
+    if (count_mistakes == 0 && count_blanks == 0) {
+        message_div.innerHTML = 'You Won!'
     } else {
-        console.log('not finished yet');
+        message_div.innerHTML = `You have ${count_mistakes} mistakes and ${count_blanks} blanks.`
     }
 }
 
