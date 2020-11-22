@@ -75,6 +75,7 @@ function mark(row, col, label, toAdd=true) {
 }
 
 function checkForMistakes() {
+    removeAllHighlights()
     const right_answers = sudoku.board_string_to_grid(sudoku.solve(currentGame))
     
     let count_mistakes = 0;
@@ -159,17 +160,59 @@ function setupEventListeners() {
     })
 }
 
+function removeAllHighlights() {
+    document.querySelectorAll('.highlight').forEach(cell => {
+        cell.classList.remove('highlight')
+    })
+    document.querySelectorAll('.softHighlight').forEach(cell => {
+        cell.classList.remove('softHighlight')
+    })
+}
+
 // setup highlight buttons
 document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('.highlightBtn').forEach(cell => {
         cell.addEventListener('click', event => {
+            removeAllHighlights()
+
             const valToHighlight = event.target.innerHTML
             for (let row = 1; row < 10; row++) {
                 for (let col = 1; col < 10; col++) {
                     if (getVal(row, col) == valToHighlight) {
                         mark(row, col, 'highlight')
-                    } else {
-                        mark(row, col, 'highlight', false)
+                        for (let each = 1; each < 10; each++) {
+                            if (each != col) {
+                                mark(row, each, 'softHighlight')
+                            }
+                            if (each != row ) {
+                                mark(each, col, 'softHighlight')
+                            }
+                        }
+
+                        let startingRow;
+                        if (row < 4) {
+                            startingRow = 1
+                        } else if (row < 7) {
+                            startingRow = 4
+                        } else {
+                            startingRow = 7
+                        }
+                        let staringCol;
+                        if (col < 4) {
+                            staringCol = 1
+                        } else if (col < 7) {
+                            staringCol = 4
+                        } else {
+                            staringCol = 7
+                        }
+                        for (let r = startingRow; r < startingRow + 3; r++) {
+                            for (let c = staringCol; c < staringCol + 3; c++) {
+                                if (r != row && c != col) {
+                                    mark(r, c, 'softHighlight')
+                                }
+                            }   
+                        }
+
                     }
                 }
             }

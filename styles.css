@@ -110,6 +110,10 @@ body {
     background-color: lightskyblue!important;
     color: black;
 }
+.softHighlight {
+    background-color: rgb(230, 244, 252)!important;
+    color: black;
+}
 
 #gameDifficulty {
     text-transform: capitalize;
