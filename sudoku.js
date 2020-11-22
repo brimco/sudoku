@@ -60,7 +60,7 @@ function newGame(difficulty) {
         }
     }
     fillCounts()
-
+    setupEventListeners()
     document.querySelector('#gameDifficulty').innerHTML = difficulty.replace('-', ' ')
 }
 
@@ -73,16 +73,23 @@ function markNotPermanent(row, col) {
 }
 
 function checkForMistakes() {
-    if (currentGame == null) {
-        console.log('no game started yet');
-        return
+    const right_answers = sudoku.board_string_to_grid(sudoku.solve(currentGame))
+    
+    let correct = true
+    outer_loop:
+    for (let row = 0; row < 9; row++) {
+        for (let col = 0; col < 9; col++) {
+            if (right_answers[row][col] != currentValues[row][col]) {
+                correct = false
+                break outer_loop;
+            }
+        }
     }
-
-    if (sudoku.solve(currentGame) == sudoku.board_string_to_grid(currentValues)) {
-        console.log('Finished!')
-        return
+    if (correct) {
+        console.log('Finished');
+    } else {
+        console.log('not finished yet');
     }
-    console.log('not finished yet');
 }
 
 function get_row_and_col(td) {
@@ -107,8 +114,14 @@ function closePopover() {
     }    
 }
 
-document.addEventListener("DOMContentLoaded", () => {
+// document.addEventListener("DOMContentLoaded", () => {
+function setupEventListeners() {
     document.querySelectorAll('td').forEach(cell => {
+        // remove any previous listeners and popovers
+        $(cell).off()
+        $(cell).popover('dispose')
+
+        // add listener to any cell on the board that is NOT permanent
         if (cell.closest('table').id == 'board' && !cell.classList.contains('permanent')) {
             cell.addEventListener('click', event => {
                 closePopover();
@@ -132,8 +145,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 sanitize: false,
                 placement: 'bottom'
             });
-        }
+        } 
     })
-})
+}
 
 
