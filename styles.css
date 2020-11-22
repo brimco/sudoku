@@ -103,8 +103,12 @@ body {
     font-weight: lighter;
 }
 .mistake {
-    color: red;
     font-weight: bold;
+    background-color: lightcoral!important;
+}
+.highlight {
+    background-color: lightskyblue!important;
+    color: black;
 }
 
 #gameDifficulty {

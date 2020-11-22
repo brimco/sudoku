@@ -17,7 +17,7 @@ function getBoardElement(row, col) {
 function setVal(row, col, val) {
     getBoardElement(row, col).innerHTML = val
     currentValues[row - 1][col - 1] = val
-    markNotMistake(row, col)
+    mark(row, col, 'mistake', false)
 }
 
 function getVal(row, col) {
@@ -52,9 +52,9 @@ function newGame(difficulty) {
             val = currentValues[row - 1][col - 1]
             if (val == '.') {
                 val = ''
-                markNotPermanent(row, col)
+                mark(row, col, 'permanent', false)
             } else {
-                markPermanent(row, col)
+                mark(row, col, 'permanent')
             }
 
             setVal(row, col, val)
@@ -65,20 +65,13 @@ function newGame(difficulty) {
     document.querySelector('#gameDifficulty').innerHTML = difficulty.replace('-', ' ')
 }
 
-function markPermanent(row, col) {
-    getBoardElement(row, col).classList.add('permanent')
-}
+function mark(row, col, label, toAdd=true) {
+    if (toAdd) {
+        getBoardElement(row, col).classList.add(label)
+    } else {
+        getBoardElement(row, col).classList.remove(label)
+    }
 
-function markNotPermanent(row, col) {
-    getBoardElement(row, col).classList.remove('permanent')
-}
-
-function markMistake(row, col) {
-    getBoardElement(row, col).classList.add('mistake')
-}
-
-function markNotMistake(row, col) {
-    getBoardElement(row, col).classList.remove('mistake')
 }
 
 function checkForMistakes() {
@@ -91,18 +84,14 @@ function checkForMistakes() {
 
     for (row = 0; row < 9; row++) {
         for (col = 0; col < 9; col++) {
-            console.log(`r${row + 1} c${col + 1}. ${right_answers[row][col]} ?= ${currentValues[row][col]}`);
             if (right_answers[row][col] != currentValues[row][col]) {
                 if (currentValues[row][col] == '') {
                     count_blanks++
-                    console.log('   blank');
                 } else {
                     count_mistakes++
-                    markMistake(row + 1, col + 1)
-                    console.log('   mistake');
+                    mark(row + 1, col + 1, 'mistake')
                 }
-            } else {console.log('   equal');
-        }
+            }
         }
     }
     const message_div = document.querySelector('#mistakesMessages')
@@ -170,4 +159,20 @@ function setupEventListeners() {
     })
 }
 
-
+// setup highlight buttons
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.highlightBtn').forEach(cell => {
+        cell.addEventListener('click', event => {
+            const valToHighlight = event.target.innerHTML
+            for (let row = 1; row < 10; row++) {
+                for (let col = 1; col < 10; col++) {
+                    if (getVal(row, col) == valToHighlight) {
+                        mark(row, col, 'highlight')
+                    } else {
+                        mark(row, col, 'highlight', false)
+                    }
+                }
+            }
+        })
+    })
+})
