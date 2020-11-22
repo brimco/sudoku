@@ -1,3 +1,108 @@
-.header {
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background-color: #eee;
+}
+#layout-container {
+  min-height: 100%;
+  position: relative;
+}
+#body {
+  padding: 2em;
+  padding-bottom: 7.5em;   /* Height of the footer + padding */
+  text-align: center;
+}
+#footer {
+  text-align: center;
+  background-color: #ddd;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 5.5em;   /* Height of the footer */
+  padding: 1em;
+}
+
+
+#header {
     text-align: center;
+    padding-top: 1em;
+}
+
+#board {
+    margin: auto;
+    background-color: hotpink;
+    display: inline;
+}
+#board td, #counters td {
+    width: 2.5em;
+    height: 2.5em;
+    text-align: center;
+    border: 1px solid #777;
+    background-color: white;
+}
+
+#board td:nth-child(3n) {
+    border-right-width: 2px;
+}
+#board td:first-child {
+    border-left-width: 2px;
+}
+#board tr:nth-child(3n) td {
+    border-bottom-width: 2px;
+}
+#board tr:first-child td {
+    border-top-width: 2px;
+}
+
+#notes {
+    text-align: center;
+    float: left;
+}
+#notes textarea {
+    border: 2px solid #777;
+    width: 21em;
+    height: 19em;
+}
+#buttons {
+    width: 21em;
+    float: right;
+}
+#buttons button {
+    display: block;
+    margin: auto;
+    margin-top: 1em;
+}
+
+#counters table {
+    border: 2px solid #777;
+    margin: auto;
+    margin-top: 1em;
+}
+#counters td {
+    padding: 0.5em;
+}
+#counters thead {
+    font-weight: lighter;
+    color: #aaa;
+}
+
+#selectNumber button {
+    background-color: #ccc;
+    margin: 0.2em;
+    border: none;
+    width: 1.5em;
+}
+#selectNumber button:last-child {
+    width: 5.3em;
+}
+
+.permanent {
+    color: #aaa;
+    font-weight: lighter;
+}
+
+#gameDifficulty {
+    text-transform: capitalize;
 }
