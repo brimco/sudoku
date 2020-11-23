@@ -86,13 +86,13 @@
                           New Game
                         </button>
                         <div class="dropdown-menu" aria-labelledby="newGameBtn">
+                            <button class="dropdown-item" data-toggle="modal" data-target="#userInputModal">User Input</button>                            
                             <button class="dropdown-item" onclick="newGame('easy')">Easy</button>
                             <button class="dropdown-item" onclick="newGame('medium')">Medium</button>
                             <button class="dropdown-item" onclick="newGame('hard')">Hard</button>
                             <button class="dropdown-item" onclick="newGame('very-hard')">Very Hard</button>
-                            <!-- these take too long to create a unique board -->
-                            <!-- <button class="dropdown-item" onclick="newGame('insane')">Insane</button> -->
-                            <!-- <button class="dropdown-item" onclick="newGame('inhuman')">Inhuman</button> -->
+                            <button class="dropdown-item" onclick="newGame('insane')">Insane</button>
+                            <button class="dropdown-item" onclick="newGame('inhuman')">Inhuman</button>
                         </div>
 
                         <button class="btn btn-secondary" type="button" id="checkBtn" onclick="checkForMistakes()">
@@ -149,6 +149,31 @@
             </div>
         </div>
 
+        <!-- user input game modal -->
+        <div class="modal fade" id="userInputModal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">New Game</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body">
+                        <p>
+                            Input the board across each row from top to bottom. Use a '.' for blank spaces.
+                        </p>
+                        <textarea id='userInputString' oninput="checkUserInput()"></textarea>
+                        <div><span id='numValid'>&#10005 0</span>/81 valid characters (123456789.)</div>
+                        <div id='validBoard'>&#10005 Is not a valid board.</div>
+                        <div id='hasUnique'>&#10005 Does not have a unique solution.</div>
+                        <input type='button' id='userInputSubmit' disabled value='Start' onclick="newGame('user-input')">
+                    </div>
+                </div>
+            </div>
+        </div>
+ 
         <script>
             newGame('easy')
         </script>

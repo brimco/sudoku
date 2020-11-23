@@ -43,14 +43,34 @@ function fillCounts() {
     }
 }
 
-function generateUniqueGame(difficulty) {
-    let unique = false;
-    let game;
-    while (!unique) {
-        game = sudoku.generate(difficulty)
-        unique = sudoku.solve(game) == sudoku.solve(game, reverse=true)
-        console.log(`is unique: ${unique}`);    
+function isUnique(game) {
+    const filtered = [...game].filter(function(char) {
+        if ('123456789'.includes(char)) {
+            return char
+        }
+    })
+    if (filtered.length < 17) {
+        return false
     }
+       
+    return sudoku.solve(game) == sudoku.solve(game, reverse=true)
+}
+
+function generateUniqueGame(difficulty) {
+    let game = sudoku.generate(difficulty)
+    let unique = isUnique(game)
+    let count = 0;
+
+    while (!unique && count < 1000) {
+        console.log('Not unique');
+        game = sudoku.generate(difficulty)
+        unique = isUnique(game)
+        count++
+    }
+    if (!unique) {
+        console.log('Sorry, could not find a unique game.');
+    }
+
     return game
 }
 
@@ -75,7 +95,18 @@ function setMistakesMessage(message) {
 }
 
 function newGame(difficulty) {
-    currentGame = generateUniqueGame(difficulty)
+    console.log(`start game: ${difficulty}`);
+    if (difficulty == 'user-input') {
+        const input_elem = document.querySelector('#userInputString')
+        currentGame = [...input_elem.value].filter(function(char) {
+            if ('123456789.'.includes(char)) {
+                return char
+            }
+        })
+        $('userInputModal').modal('hide')
+    } else {
+        currentGame = generateUniqueGame(difficulty)
+    }
     currentValues = sudoku.board_string_to_grid(currentGame)
     initialValues = currentValues
     markPermanentNumbers()
@@ -321,5 +352,64 @@ function togglePotentials() {
         
         // rename button
         document.querySelector('#potentialsBtn').innerHTML = 'Hide Potentials'
+    }
+}
+
+function checkUserInput() {
+    const input_elem = document.querySelector('#userInputString')
+    const submit_btn = document.querySelector('#userInputSubmit')
+    const has_valid_count = document.querySelector('#numValid')
+    const is_valid = document.querySelector('#validBoard')
+    const has_unique = document.querySelector('#hasUnique')
+
+    const game = [...input_elem.value].filter(function(char) {
+        if ('123456789.'.includes(char)) {
+            return char
+        }
+    })
+
+    // check if total count is right
+    const total_count = game.length  
+    const valid_count = total_count == 81;
+    if (valid_count) {
+        has_valid_count.innerHTML = '&#10003 '.concat(total_count)
+    } else {
+        has_valid_count.innerHTML = '&#10005 '.concat(total_count)  
+    }
+
+    // check if is a valid board
+    let valid_board = false
+    let valid_board_msg = ''
+    if (valid_count) {
+        valid_board = true
+        for (let num = 1; num < 10; num++) {
+            let count = game.filter(function(each) {
+                return each == String(num)
+            }).length
+
+            if (count > 9) {
+                valid_board = false
+                valid_board_msg += `Too many ${num}s were found. (Must be < 10). `
+            }
+        }
+    }
+
+    if (valid_board) {
+        is_valid.innerHTML = '&#10003 Is a valid board.'
+    } else {
+        is_valid.innerHTML = `&#10005 Is not a valid board: ${valid_board_msg}`
+    }
+
+    // check if has unique solution
+    let is_unique = false 
+    if (valid_board) {
+        is_unique = isUnique(game)
+    }
+    if (is_unique) {
+        has_unique.innerHTML = '&#10003 Has a unique solution.'
+        submit_btn.disabled = false
+    } else {
+        has_unique.innerHTML = '&#10005 Does not have a unique solution.'
+        submit_btn.disabled = true
     }
 }

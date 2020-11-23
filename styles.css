@@ -37,17 +37,18 @@ body {
     font-weight: bold;
 }
 #board td, #counters td {
-    width: 3em;
-    height: 3em;
+    width: 2em;
+    height: 2em;
     text-align: center;
     border: 1px solid #777;
     background-color: white;
-    font-size: large;
+    font-size: xx-large;
 }
 @media (max-width: 760px) {
     #board td, #counters td {
         width: 2em;
         height: 2em;
+        font-size: x-large;
     }
 }
 
@@ -128,10 +129,15 @@ body {
 .potential {
     color: lightseagreen;
     pointer-events: none;
-    font-size: small;
+    font-size: medium;
     vertical-align: text-bottom;
 }
 
 #gameDifficulty {
     text-transform: capitalize;
+    height: 2em;
+}
+
+#userInputString {
+    width: 100%;
 }
