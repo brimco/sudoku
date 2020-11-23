@@ -90,8 +90,9 @@
                             <button class="dropdown-item" onclick="newGame('medium')">Medium</button>
                             <button class="dropdown-item" onclick="newGame('hard')">Hard</button>
                             <button class="dropdown-item" onclick="newGame('very-hard')">Very Hard</button>
-                            <button class="dropdown-item" onclick="newGame('insane')">Insane</button>
-                            <button class="dropdown-item" onclick="newGame('inhuman')">Inhuman</button>
+                            <!-- these take too long to create a unique board -->
+                            <!-- <button class="dropdown-item" onclick="newGame('insane')">Insane</button> -->
+                            <!-- <button class="dropdown-item" onclick="newGame('inhuman')">Inhuman</button> -->
                         </div>
 
                         <button class="btn btn-secondary" type="button" id="checkBtn" onclick="checkForMistakes()">
@@ -99,12 +100,16 @@
                         </button>
                         <div id='mistakesMessages'></div>
 
-                        <button class="btn btn-secondary dropdown-toggle" type="button" id="helpBtn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <!-- <button class="btn btn-secondary dropdown-toggle" type="button" id="helpBtn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Get Help
-                          </button>
-                          <div class="dropdown-menu" aria-labelledby="helpBtn">
-                              <button class="dropdown-item" onclick="">Easy</button>
-                          </div>
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="helpBtn">
+                            <button class="dropdown-item" onclick="">Easy</button>
+                        </div> -->
+                        <button class="btn btn-secondary" type="button" id="potentialsBtn" onclick="togglePotentials()">
+                            Show Potentials
+                        </button>
+
                     </div>
                 </div>    
 

@@ -18,6 +18,8 @@ function setVal(row, col, val) {
     getBoardElement(row, col).innerHTML = val
     currentValues[row - 1][col - 1] = val
     mark(row, col, 'mistake', false)
+    togglePotentials()
+    togglePotentials()
 }
 
 function getVal(row, col) {
@@ -41,11 +43,18 @@ function fillCounts() {
     }
 }
 
-function newGame(difficulty) {
-    currentGame = sudoku.generate(difficulty)
-    currentValues = sudoku.board_string_to_grid(currentGame)
-    initialValues = currentValues
+function generateUniqueGame(difficulty) {
+    let unique = false;
+    let game;
+    while (!unique) {
+        game = sudoku.generate(difficulty)
+        unique = sudoku.solve(game) == sudoku.solve(game, reverse=true)
+        console.log(`is unique: ${unique}`);    
+    }
+    return game
+}
 
+function markPermanentNumbers() {
     let val = ''
     for (let row = 1; row < 10; row++) {
         for (let col = 1; col < 10; col++) {
@@ -56,18 +65,36 @@ function newGame(difficulty) {
             } else {
                 mark(row, col, 'permanent')
             }
-
             setVal(row, col, val)
         }
     }
+}
+
+function setMistakesMessage(message) {
+    document.querySelector('#mistakesMessages').innerHTML = message;
+}
+
+function newGame(difficulty) {
+    currentGame = generateUniqueGame(difficulty)
+    currentValues = sudoku.board_string_to_grid(currentGame)
+    initialValues = currentValues
+    markPermanentNumbers()
     fillCounts()
+    fillGameDifficulty(difficulty)
     setupEventListeners()
+    setMistakesMessage('')
+}
+
+function fillGameDifficulty(difficulty) {
     document.querySelector('#gameDifficulty').innerHTML = difficulty.replace('-', ' ')
 }
 
 function mark(row, col, label, toAdd=true) {
+    const elem = getBoardElement(row, col)
     if (toAdd) {
-        getBoardElement(row, col).classList.add(label)
+        if (!elem.classList.contains(label)) {
+            elem.classList.add(label)
+        }
     } else {
         getBoardElement(row, col).classList.remove(label)
     }
@@ -95,11 +122,10 @@ function checkForMistakes() {
             }
         }
     }
-    const message_div = document.querySelector('#mistakesMessages')
     if (count_mistakes == 0 && count_blanks == 0) {
-        message_div.innerHTML = 'You Won!'
+        setMistakesMessage('You Won!')
     } else {
-        message_div.innerHTML = `You have ${count_mistakes} mistakes and ${count_blanks} blanks.`
+        setMistakesMessage(`You have ${count_mistakes} mistakes and ${count_blanks} blanks.`)
     }
 }
 
@@ -125,7 +151,6 @@ function closePopover() {
     }    
 }
 
-// document.addEventListener("DOMContentLoaded", () => {
 function setupEventListeners() {
     document.querySelectorAll('td').forEach(cell => {
         // remove any previous listeners and popovers
@@ -140,6 +165,7 @@ function setupEventListeners() {
                 currentPopover = event.target    
             })
 
+            // setup popover
             let elem = '<div id="selectNumber">'
             for (let num = 1; num < 10; num++) {
                 elem += `<button onclick="chooseVal(${num});">${num}</button>`
@@ -169,53 +195,131 @@ function removeAllHighlights() {
     })
 }
 
+function highlight(valToHighlight) {
+    removeAllHighlights()
+    for (let row = 1; row < 10; row++) {
+        for (let col = 1; col < 10; col++) {
+            // check if it is the val to highlight
+            if (getVal(row, col) == valToHighlight) {
+                mark(row, col, 'highlight')
+                
+                // soft highlight row & col
+                for (let each = 1; each < 10; each++) {
+                    if (each != col) {
+                        mark(row, each, 'softHighlight')
+                    }
+                    if (each != row ) {
+                        mark(each, col, 'softHighlight')
+                    }
+                }
+                
+                // soft highlight family
+                const startingRow = getStarting(row);
+                const startingCol = getStarting(col);
+                for (let r = startingRow; r < startingRow + 3; r++) {
+                    for (let c = startingCol; c < startingCol + 3; c++) {
+                        if (r != row && c != col) {
+                            mark(r, c, 'softHighlight')
+                        }
+                    }   
+                }
+            } 
+
+            // soft highlight any answered cells
+            if (valToHighlight != '#' && getVal(row, col) != '') {
+                mark(row, col, 'softHighlight')
+            }
+        }
+    }
+
+}
+
 // setup highlight buttons
 document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('.highlightBtn').forEach(cell => {
         cell.addEventListener('click', event => {
-            removeAllHighlights()
-
-            const valToHighlight = event.target.innerHTML
-            for (let row = 1; row < 10; row++) {
-                for (let col = 1; col < 10; col++) {
-                    if (getVal(row, col) == valToHighlight) {
-                        mark(row, col, 'highlight')
-                        for (let each = 1; each < 10; each++) {
-                            if (each != col) {
-                                mark(row, each, 'softHighlight')
-                            }
-                            if (each != row ) {
-                                mark(each, col, 'softHighlight')
-                            }
-                        }
-
-                        let startingRow;
-                        if (row < 4) {
-                            startingRow = 1
-                        } else if (row < 7) {
-                            startingRow = 4
-                        } else {
-                            startingRow = 7
-                        }
-                        let staringCol;
-                        if (col < 4) {
-                            staringCol = 1
-                        } else if (col < 7) {
-                            staringCol = 4
-                        } else {
-                            staringCol = 7
-                        }
-                        for (let r = startingRow; r < startingRow + 3; r++) {
-                            for (let c = staringCol; c < staringCol + 3; c++) {
-                                if (r != row && c != col) {
-                                    mark(r, c, 'softHighlight')
-                                }
-                            }   
-                        }
-
-                    }
-                }
-            }
+            highlight(event.target.innerHTML)
         })
     })
 })
+
+function getStarting(row) {
+    if (row < 4) {
+        return 1
+    } else if (row < 7) {
+        return 4
+    } else {
+        return 7
+    }
+}
+
+function getPotentials(row, col) {
+    let potentials = [1,2,3,4,5,6,7,8,9]
+    
+    if (getVal(row, col) != '') {
+        return [getVal(row, col)]
+    }
+
+    for (let each = 1; each < 10; each++) {
+        // check row
+        if (col != each) {
+            potentials = potentials.filter(function(val, indx, arr) {
+                return getVal(row, each) != val
+            })
+            if (potentials.length == 1) {
+                return potentials
+            }
+        }
+        // check col
+        if (row != each) {
+            potentials = potentials.filter(function(val, indx, arr) {
+                return getVal(each, col) != val
+            })
+            if (potentials.length == 1) {
+                return potentials
+            }
+        }
+        // check family
+        const startingRow = getStarting(row)
+        const startingCol = getStarting(col);
+        for (let r = startingRow; r < startingRow + 3; r++) {
+            for (let c = startingCol; c < startingCol + 3; c++) {
+                potentials = potentials.filter(function(val, indx, arr) {
+                    return getVal(r, c) != val
+                })
+                if (potentials.length == 1) {
+                    return potentials
+                }
+            }   
+        }
+    }
+    return potentials;
+}
+
+function togglePotentials() {
+    // if any potential elements exist, remove them
+    potentials = document.querySelectorAll('.potential')
+    if (potentials.length > 0) {
+        potentials.forEach(elem => {
+            elem.remove()
+        })
+        // rename button
+        document.querySelector('#potentialsBtn').innerHTML = 'Show Potentials'
+    } else {
+        // else, add them
+        for (let row = 1; row < 10; row++) {
+            for (let col = 1; col < 10; col++) {
+                if (getVal(row, col) == '') {
+                    const potentials = getPotentials(row, col)
+                    const elem = document.createElement('div')
+                    elem.innerHTML = potentials
+                    elem.classList.add('potential')
+                    getBoardElement(row, col).appendChild(elem)              
+                }
+            }
+        }
+        
+        // rename button
+        document.querySelector('#potentialsBtn').innerHTML = 'Hide Potentials'
+    }
+}

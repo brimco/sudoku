@@ -34,13 +34,21 @@ body {
     margin: auto;
     background-color: hotpink;
     display: inline;
+    font-weight: bold;
 }
 #board td, #counters td {
-    width: 2.5em;
-    height: 2.5em;
+    width: 3em;
+    height: 3em;
     text-align: center;
     border: 1px solid #777;
     background-color: white;
+    font-size: large;
+}
+@media (max-width: 760px) {
+    #board td, #counters td {
+        width: 2em;
+        height: 2em;
+    }
 }
 
 #board td:nth-child(3n) {
@@ -100,7 +108,7 @@ body {
 
 .permanent {
     color: #aaa;
-    font-weight: lighter;
+    font-weight: lighter!important;
 }
 .mistake {
     font-weight: bold;
@@ -111,8 +119,17 @@ body {
     color: black;
 }
 .softHighlight {
-    background-color: rgb(230, 244, 252)!important;
+    background-color: rgb(224, 243, 255)!important;
     color: black;
+}
+.won {
+    background-color: lightgreen!important;
+}
+.potential {
+    color: lightseagreen;
+    pointer-events: none;
+    font-size: small;
+    vertical-align: text-bottom;
 }
 
 #gameDifficulty {
