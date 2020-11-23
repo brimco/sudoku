@@ -23,7 +23,7 @@ function setVal(row, col, val) {
 }
 
 function getVal(row, col) {
-    return getBoardElement(row, col).innerHTML
+    return currentValues[row - 1][col - 1]
 }
 
 function fillCounts() {
@@ -62,16 +62,15 @@ function generateUniqueGame(difficulty) {
     let count = 0;
 
     while (!unique && count < 1000) {
-        console.log('Not unique');
         game = sudoku.generate(difficulty)
         unique = isUnique(game)
         count++
     }
     if (!unique) {
-        console.log('Sorry, could not find a unique game.');
+        difficulty = `${difficulty} (Not Unique)`
     }
 
-    return game
+    return [game, difficulty]
 }
 
 function markPermanentNumbers() {
@@ -95,7 +94,7 @@ function setMistakesMessage(message) {
 }
 
 function newGame(difficulty) {
-    console.log(`start game: ${difficulty}`);
+    fillGameDifficulty('Loading...');
     if (difficulty == 'user-input') {
         const input_elem = document.querySelector('#userInputString')
         currentGame = [...input_elem.value].filter(function(char) {
@@ -105,10 +104,11 @@ function newGame(difficulty) {
         })
         $('userInputModal').modal('hide')
     } else {
-        currentGame = generateUniqueGame(difficulty)
+        [currentGame, difficulty] = generateUniqueGame(difficulty)
     }
     currentValues = sudoku.board_string_to_grid(currentGame)
     initialValues = currentValues
+    removeAllHighlights()
     markPermanentNumbers()
     fillCounts()
     fillGameDifficulty(difficulty)
@@ -257,7 +257,7 @@ function highlight(valToHighlight) {
             } 
 
             // soft highlight any answered cells
-            if (valToHighlight != '#' && getVal(row, col) != '') {
+            if (valToHighlight != '#' && getVal(row, col) != valToHighlight && getVal(row, col) != '') {
                 mark(row, col, 'softHighlight')
             }
         }
@@ -297,18 +297,12 @@ function getPotentials(row, col) {
             potentials = potentials.filter(function(val, indx, arr) {
                 return getVal(row, each) != val
             })
-            if (potentials.length == 1) {
-                return potentials
-            }
         }
         // check col
         if (row != each) {
             potentials = potentials.filter(function(val, indx, arr) {
                 return getVal(each, col) != val
             })
-            if (potentials.length == 1) {
-                return potentials
-            }
         }
         // check family
         const startingRow = getStarting(row)
@@ -318,13 +312,26 @@ function getPotentials(row, col) {
                 potentials = potentials.filter(function(val, indx, arr) {
                     return getVal(r, c) != val
                 })
-                if (potentials.length == 1) {
-                    return potentials
-                }
             }   
         }
     }
     return potentials;
+}
+
+function fillSinglePotentials() {
+    document.querySelectorAll('.glow').forEach(cell => {
+        cell.classList.remove('glow')
+    })
+
+    for (let row = 1; row < 10; row++) {
+        for (let col = 1; col < 10; col++) {
+            let potentials = getPotentials(row, col)
+            if (potentials.length == 1 && getVal(row, col) == '') {
+                setVal(row, col, potentials[0])
+                mark(row, col, 'glow')
+            }
+        }
+    }
 }
 
 function togglePotentials() {
@@ -336,6 +343,8 @@ function togglePotentials() {
         })
         // rename button
         document.querySelector('#potentialsBtn').innerHTML = 'Show Potentials'
+        // hide button
+        document.querySelector('#fillSinglePotentialsBtn').hidden = true
     } else {
         // else, add them
         for (let row = 1; row < 10; row++) {
@@ -352,6 +361,8 @@ function togglePotentials() {
         
         // rename button
         document.querySelector('#potentialsBtn').innerHTML = 'Hide Potentials'
+        // show button
+        document.querySelector('#fillSinglePotentialsBtn').hidden = false
     }
 }
 

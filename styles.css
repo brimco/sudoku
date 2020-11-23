@@ -120,7 +120,7 @@ body {
     color: black;
 }
 .softHighlight {
-    background-color: rgb(224, 243, 255)!important;
+    background-color: rgb(214, 239, 255)!important;
     color: black;
 }
 .won {
@@ -132,6 +132,18 @@ body {
     font-size: medium;
     vertical-align: text-bottom;
 }
+.glow {
+    animation-name: glow-fade;
+    animation-duration: 2s;
+}
+@keyframes glow-fade {
+    0% {
+      text-shadow: 0px 0px 5px gold;
+    }
+    100% {
+      text-shadow: 0px 0px 0px gold;
+    }
+  }
 
 #gameDifficulty {
     text-transform: capitalize;
