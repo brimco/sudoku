@@ -32,7 +32,6 @@ body {
 
 #board {
     margin: auto;
-    background-color: hotpink;
     display: inline;
     font-weight: bold;
 }
@@ -152,4 +151,58 @@ body {
 
 #userInputString {
     width: 100%;
+}
+
+a.btn {
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+.sm-board td {
+    width: 1em!important;
+    height: 1em!important;
+}
+.red {
+    color: red;
+    font-weight: bold;
+}
+.row-col-block-board tr:nth-of-type(2) {
+    border: 4px solid red!important;
+}
+.blue {
+    color: blue;
+    font-weight: bold;
+}
+.row-col-block-board tr td:nth-of-type(4) {
+    border-right: 4px solid blue!important;
+    border-left: 4px solid blue!important;
+}
+.row-col-block-board tr:first-of-type td:nth-of-type(4) {
+    border-top: 4px solid blue!important;
+}
+.row-col-block-board tr:last-of-type td:nth-of-type(4) {
+    border-bottom: 4px solid blue!important;
+}
+.green {
+    color: green;
+    font-weight: bold;
+}
+.row-col-block-board tr:nth-of-type(3n + 6) td:nth-of-type(n + 7) {
+    border-bottom: 4px solid green!important;
+}
+.row-col-block-board tr:nth-of-type(n + 7) td:nth-of-type(3n + 6) {
+    border-right: 4px solid green!important;
+}
+
+p {
+    width: 50%;
+    margin: auto;    
+    padding: 2em;
+}
+@media(max-width: 760px) {
+    p {
+        width: 100%;
+        padding-left: 0.5em;
+        padding-right: 0.5em;
+    }
 }

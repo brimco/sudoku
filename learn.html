@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang='en'>
+    <head>
+        <title>Learn to Play Sudoku</title>
+
+        <!-- bootstrap -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+
+        <!-- style -->
+        <link href='styles.css' rel='stylesheet'></link>
+        <!-- <link rel="icon" type="image/png" href="/favicon.png"/> -->
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!-- js files -->
+        <script src='learn.js'></script>
+    </head>
+
+    <body>
+        <div id='layout-container'>
+            <div id="header">
+                <h1>Sudoku</h1>
+
+                <nav>
+                    <button onclick="showPage(1)" class='btn btn-secondary pageBtn' id='1'>Page 1</button>
+                    <button onclick="showPage(2)" class='btn btn-outline-secondary pageBtn' id='2'>Page 2</button>
+                    <a href='index.html' class='btn btn-outline-secondary'>Play Sudoku</a>
+                </nav>
+            </div>
+
+            <div id='body'>
+                <div class='page' id='1'>
+                    <h2>Sudoku Rules</h2>
+                    <p>The object of the game is to fill a 9x9 grid so that each <span class='red'>row</span>, 
+                        <span class='blue'>column</span>, and <span class='green'>3x3 block</span> has one 
+                        and only one of the numbers 1-9. Some of the numbers will be prefilled and the goal 
+                        of the game is to fill in the rest. Most sudoku puzzles can be solved without guessing.
+                    </p>
+                    
+                    <table id='board' class="row-col-block-board sm-board">
+                        <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+                        <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+                        <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+                        <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+                        <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+                        <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+                        <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+                        <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+                        <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+                    </table>
+
+                    <h3></h3>
+                </div>
+                <div class='page' id='2' hidden>
+                    this is page 2
+                </div>
+
+            </div>
+
+            <div id='footer'>
+                <a href='https://brimco.herokuapp.com' class='text-secondary'>Bri McOmber</a><br>
+                <a href='https://github.com/robatron/sudoku.js' class='text-secondary'>Based on Robatron's Sudoku.js</a>
+            </div>
+        </div> 
+    </body>
+</html>

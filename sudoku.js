@@ -94,7 +94,6 @@ function setMistakesMessage(message) {
 }
 
 function newGame(difficulty) {
-    fillGameDifficulty('Loading...');
     if (difficulty == 'user-input') {
         const input_elem = document.querySelector('#userInputString')
         currentGame = [...input_elem.value].filter(function(char) {
