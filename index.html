@@ -14,7 +14,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <!-- js files -->
-        <script src='sudoku.js'></script>
+        <script src='play.js'></script>
         <script src='generator.js'></script>
     </head>
 
@@ -22,9 +22,50 @@
         <div id='layout-container'>
             <div id="header">
                 <h1>Sudoku</h1>
-            </div>
+
+                <div class="dropdown">
+                    <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="newGameBtn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        New Game
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="newGameBtn">
+                        <button class="dropdown-item" data-toggle="modal" data-target="#userInputModal">User Input</button>
+                        <div id='easy'>
+                            <button class="dropdown-item" onclick="newGame('easy')">Easy</button>
+                        </div>
+                        <div id='medium'>
+                            <button class="dropdown-item" onclick="newGame('medium')">Medium</button>
+                        </div>
+                        <div id='hard'>
+                            <button class="dropdown-item" onclick="newGame('hard')">Hard</button>
+                        </div>
+                        <div id='very-hard'>
+                            <button class="dropdown-item" onclick="newGame('very-hard')">Very Hard</button>
+                            <div id="spinner" class="lds-ring"><div></div></div>
+                        </div>
+                        <div id='insane'>
+                            <button class="dropdown-item" onclick="newGame('insane')">Insane</button>
+                        </div>
+                        <!-- <button class="dropdown-item" id='inhuman' onclick="newGame('inhuman')">Inhuman</button> -->
+                    </div>
+
+                    <button class="btn btn-outline-secondary" type="button" id="checkBtn" onclick="checkForMistakes()">
+                        Check for Mistakes
+                    </button>
+
+                    <button class="btn btn-outline-secondary" type="button" id="potentialsBtn" onclick="togglePotentials()">
+                        Show Potentials
+                    </button>
+                    <button class="btn btn-outline-secondary" type="button" id='fillSinglePotentialsBtn' onclick="fillSinglePotentials()" hidden>
+                        Fill Single Potentials
+                    </button>
+                    <a class="btn btn-outline-secondary" id='learnBtn' href="learn.html">
+                        Learn to Play
+                    </a>
+
+                </div>
 
             <div id='body'>
+                <div id='mistakesMessages'></div>
                 <div id='gameDifficulty'></div>
 
                 <table id='board'>
@@ -38,56 +79,6 @@
                     <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
                     <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
                 </table>
-
-                <div id='notes'>
-                    <h2>Notes</h2>
-                    <textarea></textarea>
-                </div>
-
-                <div id='buttons'>
-                    <div class="dropdown">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" id="newGameBtn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                          New Game
-                        </button>
-                        <div class="dropdown-menu" aria-labelledby="newGameBtn">
-                            <button class="dropdown-item" data-toggle="modal" data-target="#userInputModal">User Input</button>
-                            
-                            <div id='easy'>
-                                <button class="dropdown-item" onclick="newGame('easy')">Easy</button>
-                            </div>
-                            <div id='medium'>
-                                <button class="dropdown-item" onclick="newGame('medium')">Medium</button>
-                            </div>
-                            <div id='hard'>
-                                <button class="dropdown-item" onclick="newGame('hard')">Hard</button>
-                            </div>
-                            <div id='very-hard'>
-                                <button class="dropdown-item" onclick="newGame('very-hard')">Very Hard</button>
-                                <div id="spinner" class="lds-ring"><div></div></div>
-                            </div>
-                            <div id='insane'>
-                                <button class="dropdown-item" onclick="newGame('insane')">Insane</button>
-                            </div>
-                            <!-- <button class="dropdown-item" id='inhuman' onclick="newGame('inhuman')">Inhuman</button> -->
-                        </div>
-
-                        <button class="btn btn-secondary" type="button" id="checkBtn" onclick="checkForMistakes()">
-                            Check for Mistakes
-                        </button>
-                        <div id='mistakesMessages'></div>
-
-                        <button class="btn btn-secondary" type="button" id="potentialsBtn" onclick="togglePotentials()">
-                            Show Potentials
-                        </button>
-                        <button class="btn btn-secondary" type="button" id='fillSinglePotentialsBtn' onclick="fillSinglePotentials()" hidden>
-                            Fill Single Potentials
-                        </button>
-                        <a class="btn btn-secondary" id='learnBtn' href="learn.html">
-                            Learn to Play
-                        </a>
-
-                    </div>
-                </div>    
 
                 <div id='counters'>
                     <table>

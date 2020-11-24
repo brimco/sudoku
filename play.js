@@ -107,7 +107,10 @@ function newGame(difficulty) {
     }
     currentValues = sudoku.board_string_to_grid(currentGame)
     initialValues = currentValues
-    removeAllHighlights()
+
+    removeMarks('highlight')
+    removeMarks('softHighlight')
+    removeMarks('won')
     markPermanentNumbers()
     fillCounts()
     fillGameDifficulty(difficulty)
@@ -132,7 +135,9 @@ function mark(row, col, label, toAdd=true) {
 }
 
 function checkForMistakes() {
-    removeAllHighlights()
+    removeMarks('highlight')
+    removeMarks('softHighlight')
+
     const right_answers = sudoku.board_string_to_grid(sudoku.solve(currentGame))
     
     let count_mistakes = 0;
@@ -154,6 +159,11 @@ function checkForMistakes() {
     }
     if (count_mistakes == 0 && count_blanks == 0) {
         setMistakesMessage('You Won!')
+        for (let row = 1; row < 10; row++) {
+            for (let col = 1; col < 10; col++) {
+                mark(row, col, 'won')
+            }
+        }
     } else {
         setMistakesMessage(`You have ${count_mistakes} mistakes and ${count_blanks} blanks.`)
     }
@@ -216,17 +226,16 @@ function setupEventListeners() {
     })
 }
 
-function removeAllHighlights() {
-    document.querySelectorAll('.highlight').forEach(cell => {
-        cell.classList.remove('highlight')
-    })
-    document.querySelectorAll('.softHighlight').forEach(cell => {
-        cell.classList.remove('softHighlight')
+function removeMarks(label) {
+    document.querySelectorAll(`.${label}`).forEach(cell => {
+        cell.classList.remove(label)
     })
 }
 
 function highlight(valToHighlight) {
-    removeAllHighlights()
+    removeMarks('highlight')
+    removeMarks('softHighlight')
+
     for (let row = 1; row < 10; row++) {
         for (let col = 1; col < 10; col++) {
             // check if it is the val to highlight

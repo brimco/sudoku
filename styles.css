@@ -1,3 +1,4 @@
+/* Page Structure */
 html,
 body {
   margin: 0;
@@ -10,7 +11,7 @@ body {
   position: relative;
 }
 #body {
-  padding: 2em;
+  padding: 1em;
   padding-bottom: 7.5em;   /* Height of the footer + padding */
   text-align: center;
 }
@@ -23,13 +24,12 @@ body {
   height: 5.5em;   /* Height of the footer */
   padding: 1em;
 }
-
-
 #header {
     text-align: center;
     padding-top: 1em;
 }
 
+/* Board */
 #board {
     margin: auto;
     display: inline;
@@ -64,25 +64,7 @@ body {
     border-top-width: 2px;
 }
 
-#notes {
-    text-align: center;
-    float: left;
-}
-#notes textarea {
-    border: 2px solid #777;
-    width: 21em;
-    height: 19em;
-}
-#buttons {
-    width: 21em;
-    float: right;
-}
-#buttons button {
-    display: block;
-    margin: auto;
-    margin-top: 1em;
-}
-
+/* Counter Table */
 #counters table {
     border: 2px solid #777;
     margin: auto;
@@ -96,6 +78,7 @@ body {
     color: #aaa;
 }
 
+/* Selection */
 #selectNumber button {
     background-color: #ccc;
     margin: 0.2em;
@@ -106,6 +89,7 @@ body {
     width: 5.3em;
 }
 
+/* Board Coloring */
 .permanent {
     color: #aaa;
     font-weight: lighter!important;
@@ -123,7 +107,8 @@ body {
     color: black;
 }
 .won {
-    background-color: lightgreen!important;
+    background-color: rgb(180, 241, 180)!important;
+    color: black;
 }
 .potential {
     color: lightseagreen;
@@ -142,22 +127,9 @@ body {
     100% {
       text-shadow: 0px 0px 0px gold;
     }
-  }
-
-#gameDifficulty {
-    text-transform: capitalize;
-    height: 2em;
 }
 
-#userInputString {
-    width: 100%;
-}
-
-a.btn {
-    margin-top: 1em;
-    margin-bottom: 1em;
-}
-
+/* Learn to Play Board */
 .sm-board td {
     width: 1em!important;
     height: 1em!important;
@@ -205,4 +177,19 @@ p {
         padding-left: 0.5em;
         padding-right: 0.5em;
     }
+}
+
+#mistakesMessages {
+    font-size: x-large;
+    height: 2em;
+}
+
+#gameDifficulty {
+    text-transform: capitalize;
+    height: 2em;
+    font-size: large;
+}
+
+#userInputString {
+    width: 100%;
 }
