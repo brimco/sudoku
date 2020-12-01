@@ -197,3 +197,6 @@ body {
 #userInputString {
     width: 100%;
 }
+button, a {
+    color: #777!important;
+}
