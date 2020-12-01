@@ -20,12 +20,12 @@
     <body>
         <div id='layout-container'>
             <div id="header">
-                <h1>Sudoku</h1>
+                <h1>Sudoku</h1><hr>
 
                 <nav>
+                    <a href='index.html' class='btn btn-outline-secondary'>Play Sudoku</a><br><br>
                     <button onclick="showPage(1)" class='btn btn-secondary pageBtn' id='1'>Page 1</button>
                     <button onclick="showPage(2)" class='btn btn-outline-secondary pageBtn' id='2'>Page 2</button>
-                    <a href='index.html' class='btn btn-outline-secondary'>Play Sudoku</a>
                 </nav>
             </div>
 
@@ -48,14 +48,66 @@
                         <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
                         <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
                         <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-                    </table>
-
-                    <h3></h3>
+                    </table>   
                 </div>
+
                 <div class='page' id='2' hidden>
-                    this is page 2
-                </div>
+                    <h2>New Game</h2>
+                    <p>
+                        Start a new game by clicking the "New Game" button and then selecting the difficulty. One option 
+                        is "User Input." This opens a window where the user can input a new game by entering the numbers
+                        across each row from top to bottom, using a period as empty spaces.
+                    </p>
+                    <p> 
+                        The difficulty only determines the number of squares that are filled in the beginning, so the 
+                        actual difficulty in the solving each board may vary. For the harder difficulties, the program
+                        sometimes can't generate a board with a unique solution. If this happens, it will show it
+                        with the difficulty shown above the board. We're working to improve the board generation algorithm!
+                    </p>
 
+                    <h2>Check for Mistakes</h2>
+                    <p>
+                        The "Check for Mistakes" button will check your current board and highlight any mistakes in 
+                        <span class='red'>red</span>. It will also list the number of mistakes and the number of 
+                        blanks squares remaining. When the board is completed correctly, the board will turn
+                        <span class='green'>green</span>.
+                    </p>
+
+                    <h2>Show Potentials</h2>
+                    <p>
+                        This sudoku page can show the potential numbers for each square of the board by clicking the 
+                        button at the top. Clicking the "Show Potentials" button will show a list in each square 
+                        of every number that is not yet found in the corresponding row, column, or square. For example, 
+                        in the board below, the <span class='green'>green square</span> the potential numbers would be 
+                        <strong>3, 5, 7</strong>. 
+                    </p>    
+                    <table id='board' class="sm-board">
+                        <tr><td>1</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+                        <tr><td></td><td></td><td>4</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+                        <tr><td>2</td><td class='green-border'></td><td></td><td></td><td></td><td>9</td><td>8</td><td></td><td>6</td></tr>
+                        <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+                        <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+                        <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+                        <tr><td></td><td>6</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+                        <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+                        <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+                    </table>
+                    <p>
+                        When the potential numbers are showing, there will be another button labeled "Fill Single Potentials."
+                        This button will automatically fill and square with only one potential with the remaining number.
+                    </p>
+
+                    <h2>Number Counts & Highlighting</h2>
+                    <p>
+                        The chart below the board shows the current count of each number in the board. A completed 
+                        board will have 9 of each number.
+                    </p>
+                    <p>
+                        Clicking a number in this chart (top row) will highlight that number on your board in 
+                        <span class='highlight'>dark blue</span>. Squares where that number is not a 
+                        potential are highlighted in <span class='softHighlight'>light blue</span>.
+                    </p>
+                </div>
             </div>
 
             <div id='footer'>

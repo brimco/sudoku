@@ -336,6 +336,7 @@ function fillSinglePotentials() {
             let potentials = getPotentials(row, col)
             if (potentials.length == 1 && getVal(row, col) == '') {
                 setVal(row, col, potentials[0])
+                fillCounts()
                 mark(row, col, 'glow')
             }
         }

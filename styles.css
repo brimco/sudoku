@@ -133,6 +133,7 @@ body {
 .sm-board td {
     width: 1em!important;
     height: 1em!important;
+    font-weight: normal!important;
 }
 .red {
     color: red;
@@ -159,6 +160,9 @@ body {
     color: green;
     font-weight: bold;
 }
+.green-border {
+    border: 4px solid green!important;
+}
 .row-col-block-board tr:nth-of-type(3n + 6) td:nth-of-type(n + 7) {
     border-bottom: 4px solid green!important;
 }
@@ -166,7 +170,7 @@ body {
     border-right: 4px solid green!important;
 }
 
-p {
+.page p {
     width: 50%;
     margin: auto;    
     padding: 2em;
